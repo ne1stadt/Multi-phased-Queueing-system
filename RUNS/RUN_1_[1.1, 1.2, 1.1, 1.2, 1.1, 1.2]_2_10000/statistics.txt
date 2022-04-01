@@ -1,0 +1,25 @@
+TERMINATION RATE:
+Note that signal is considered terminated in Node k if it finished Node k and didn't fit in node k+1
+So last Node Termination Rate is Always 0%
+Not Started Termination Rate: 21.64%
+Node 1 Termination Rate: 7.37%
+Node 2 Termination Rate: 6.01%
+Node 3 Termination Rate: 3.07%
+Node 4 Termination Rate: 3.39%
+Node 5 Termination Rate: 2.26%
+Total Termination Rate: 43.74%
+
+AVERAGE NODE TIME:
+Average Queue Time in Node 1: 0.8343371571530377
+Average Full Time in Node 1: 1.7353720442336849
+Average Queue Time in Node 2: 0.5868835302652609
+Average Full Time in Node 2: 1.415308834085071
+Average Queue Time in Node 3: 0.6282648065746254
+Average Full Time in Node 3: 1.5282739465996351
+Average Queue Time in Node 4: 0.49025983561977593
+Average Full Time in Node 4: 1.325767423596594
+Average Queue Time in Node 5: 0.5282807401405899
+Average Full Time in Node 5: 1.4182045141194954
+Average Queue Time in Node 6: 0.45555013884637807
+Average Full Time in Node 6: 1.3156743347205506
+Average Signal in System time (only Finished): 9.16328760404647
