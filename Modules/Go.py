@@ -20,8 +20,6 @@ def go(lambd, mus, queue_lenghts, drop_window=100, isdynamic=False, discrepancy=
         return 0
 
     lenmus = len(mus)
-    stationary = False
-    last_unstationary_index = 0
     dynamic = isdynamic
 
     if (dynamic):
@@ -101,7 +99,7 @@ def go(lambd, mus, queue_lenghts, drop_window=100, isdynamic=False, discrepancy=
             finished = pd.concat([finished, data[data['status'] >= 3]])
             data = data.drop(data[data['status'] >= 3].index)
             if (dynamic == False):
-                process_is_not_finished = processIsNotFinishedStatic(finished, number_of_samples)
+                process_is_not_finished = processIsNotFinishedStatic(finished, number_of_samples, iterator)
 
         if (dynamic == True):
             if (iterator % dynamic_window == 1):
@@ -111,7 +109,6 @@ def go(lambd, mus, queue_lenghts, drop_window=100, isdynamic=False, discrepancy=
                     dynamic = False
                     unstationary_data = finished.sort_index()
                     finished = finished.drop(finished[finished.index < max(finished.index)].index)
-                    last_unstationary_index = max(unstationary_data.index)
                     print("Stationary State detected. Starting static simulation.")
 
         iterator = iterator + 1

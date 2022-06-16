@@ -31,7 +31,7 @@ def writeSimulation(final, unstaionary, node_state_dataframe, arrival_rate, arra
 
 
 def makePath(arrival_rate, array_of_departure_rates, array_of_queue_lengths):
-    return r'C:\Users\koni0321\PycharmProjects\Multi-phased-Queueing-system\RUNS\RUN_rho' + str(round(arrival_rate/(array_of_departure_rates[0]), 2)) + '_n' + str(array_of_queue_lengths[0])
+    return r'C:\Users\koni0321\PycharmProjects\Multi-phased-Queueing-system\RUNS\RUN_rho' + str(round(arrival_rate/(array_of_departure_rates[0]), 2)) + '_n' + str(array_of_queue_lengths[0]) + '_m' + str(len(array_of_queue_lengths))
     #return 'RUNS\RUN_' + time.strftime("%d_%m_%Y_%H_%M_%S")
 
 
