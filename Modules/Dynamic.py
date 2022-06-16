@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 def isStationary(node_state_dataframe, probabilities, discrepancy, dynamic_window, lenmus, queue_lenghts, iterator):
     probabilities = setNewProbabilities(node_state_dataframe, dynamic_window, probabilities, lenmus, queue_lenghts)

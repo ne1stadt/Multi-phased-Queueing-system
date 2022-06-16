@@ -1,16 +1,16 @@
-import pandas as pd
 import numpy as np
 
-def updateNode(data, t, node_event, intensivities, queue_lenghts, node_states, node_queue_states, \
+
+def updateNode(data, t, node_event, intensivities, queue_lenghts, node_states, node_queue_states,
                upcoming_event_times, current_innode_signal_index):
     index_of_signal = current_innode_signal_index[node_event]
 
     data.loc[index_of_signal, 'node_' + str(node_event) + '_end'] = t
-    if (node_queue_states[node_event + 1] == queue_lenghts[node_event + 1]):
+    if node_queue_states[node_event + 1] == queue_lenghts[node_event + 1]:
         # Terminate signal
         data.loc[index_of_signal, 'status'] = 3
     else:
-        if (node_states[node_event + 1] == 0):
+        if node_states[node_event + 1] == 0:
             # Move to progress
             data.loc[index_of_signal, 'status'] = 2
             data.loc[index_of_signal, 'innode'] = node_event + 1
@@ -28,7 +28,7 @@ def updateNode(data, t, node_event, intensivities, queue_lenghts, node_states, n
             data.loc[index_of_signal, 'inqueue'] = node_queue_states[node_event + 1] + 1
             node_queue_states[node_event + 1] = node_queue_states[node_event + 1] + 1
 
-    if (node_queue_states[node_event] == 0):
+    if node_queue_states[node_event] == 0:
         # Set State of node_event to 0
         node_states[node_event] = 0
     else:
