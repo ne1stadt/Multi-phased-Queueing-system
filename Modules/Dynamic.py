@@ -1,15 +1,16 @@
 import numpy as np
 
-def isStationary(node_state_dataframe, probabilities, discrepancy, dynamic_window, lenmus, queue_lenghts, iterator):
+def isStationary(node_state_dataframe, probabilities, dynamic_window, lenmus, queue_lenghts):
     probabilities = setNewProbabilities(node_state_dataframe, dynamic_window, probabilities, lenmus, queue_lenghts)
 
-    if (len(node_state_dataframe) <= 50000):
+    if len(node_state_dataframe) <= dynamic_window*5:
         print('Need more data for Stationary Check...')
         return False, probabilities
     else:
-        with open(r"C:\Users\koni0321\PycharmProjects\Multi-phased-Queueing-system" + r"\discrep.txt", "a") as text_file:
-            text_file.write(str(probabilities[len(probabilities) - 5:].std().mean()) + '\n')
-        return True, probabilities
+        if probabilities[-5:].std().max() < 0.04 and probabilities[-5:].std().mean() < 0.015:
+            return True, probabilities
+        else:
+            return False, probabilities
 
 
 def setNewProbabilities(node_state_dataframe, dynamic_window, probabilities, lenmus, queue_lenghts):

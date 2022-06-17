@@ -11,14 +11,14 @@ from Modules.Static import *
 
 warnings.filterwarnings("ignore")
 
-
-def go(lambd, mus, queue_lenghts, drop_window=100, isdynamic=False, discrepancy=0.001, dynamic_window=100, \
+def go(lambd, mus, queue_lenghts, drop_window=100, isdynamic=False,
        number_of_samples=1000, dynamic_after_stationary_number_of_samples=1000):
     # Validation
     if (len(mus) != len(queue_lenghts)):
         print("Array of Mus and array of queue_lenghts must be of the same size.")
         return 0
 
+    dynamic_window = 10000
     lenmus = len(mus)
     dynamic = isdynamic
 
@@ -67,10 +67,8 @@ def go(lambd, mus, queue_lenghts, drop_window=100, isdynamic=False, discrepancy=
     finished = data.drop(0)
     unstationary_data = finished.drop(finished.index)
 
-    t = 0
     iterator = 0
     process_is_not_finished = True
-    avg_innode_time = [0] * lenmus
     simulation_start_time = time.time()
     while (process_is_not_finished):
 
@@ -103,8 +101,7 @@ def go(lambd, mus, queue_lenghts, drop_window=100, isdynamic=False, discrepancy=
 
         if (dynamic == True):
             if (iterator % dynamic_window == 1):
-                stationary, probabilities = isStationary(node_state_dataframe, probabilities, \
-                                                              discrepancy, dynamic_window, lenmus, queue_lenghts, iterator)
+                stationary, probabilities = isStationary(node_state_dataframe, probabilities, dynamic_window, lenmus, queue_lenghts)
                 if (stationary):
                     dynamic = False
                     unstationary_data = finished.sort_index()
