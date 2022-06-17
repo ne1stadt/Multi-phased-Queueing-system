@@ -1,80 +1,29 @@
 from Modules.Go import go
 from Modules.Write_Simulation import writeSimulation
+from simulation_grid import get_parameters_by_grid_number
+import time
 
-#rho = 1
+GRID_NUMBER = 1                                                                     # PARAMETERS FOR CHANGE
+PATH = r'C:\Users\koni0321\PycharmProjects\Multi-phased-Queueing-system'            # PARAMETERS FOR CHANGE
 
-#while (rho <= 2):
-#    for queue in range(1, 7):
-#        print('GRID: rho = ' + str(rho) + ', queue = ' + str(queue))
-#        arrival_rate = rho
-#        array_of_departure_rates = [1]*number_of_nodes
-#        array_of_queue_lengths = [queue]*number_of_nodes
-#        finish_drop_window = 20
-#        isdynamic = True
-#        discrepancy = 0.05
-#        overd2 = round(1/discrepancy**2)
-#        #dynamic_window = number_of_nodes*(queue + 1)*overd2/4
-#        dynamic_window = 5000
-#        print(dynamic_window)
-#        number_of_samples = 10000
-#        dynamic_after_stationary_number_of_samples = 10000
-#        finished, unstationary_data, node_state_dataframe, simulation_duration = go(arrival_rate, array_of_departure_rates, array_of_queue_lengths,
-#                                                                                    finish_drop_window, isdynamic, discrepancy, dynamic_window,
-#                                                                                    number_of_samples, dynamic_after_stationary_number_of_samples)
-#        writeSimulation(finished, unstationary_data, node_state_dataframe, arrival_rate, array_of_departure_rates,
-#                           array_of_queue_lengths, finish_drop_window, isdynamic, discrepancy, dynamic_window, number_of_samples,
-#                           dynamic_after_stationary_number_of_samples, simulation_duration)
-#    rho = rho + 0.2
+grid_rho, grid_n = get_parameters_by_grid_number(GRID_NUMBER)
 
-number_of_nodes = 5
-iteration_ansamble = 0
-for rho in range(0.2, 2, 0.2):
-    arrival_rate = rho
-    array_of_departure_rates = [1] * number_of_nodes
-    array_of_queue_lengths = [4] * number_of_nodes
-    finish_drop_window = 30
-    isdynamic = False
-    discrepancy = 0.05
-    overd2 = round(1 / discrepancy ** 2)
-    dynamic_window = number_of_nodes*(4 + 1)*overd2/4
+number_of_nodes = 8
 
-    number_of_samples = 30000
-    dynamic_after_stationary_number_of_samples = 10
-    finished, unstationary_data, node_state_dataframe, simulation_duration = go(arrival_rate, array_of_departure_rates,
-                                                                                array_of_queue_lengths,
-                                                                                finish_drop_window, isdynamic, discrepancy,
-                                                                                dynamic_window,
-                                                                                number_of_samples,
-                                                                                dynamic_after_stationary_number_of_samples)
-    writeSimulation(finished, unstationary_data, node_state_dataframe, arrival_rate, array_of_departure_rates,
-                    array_of_queue_lengths, finish_drop_window, isdynamic, discrepancy, dynamic_window, number_of_samples,
-                    dynamic_after_stationary_number_of_samples, simulation_duration)
+iteration_ansamble = 1
+grid_start_time = time.time()
+for rho in grid_rho:
+    for n in grid_n:
+        print('GRID: rho = ' + str(round(rho, 2)) + ', n = ' + str(n) + ' (simulation ' + str(iteration_ansamble) + ' of 18)')
+        finished, unstationary_data, node_state_dataframe, simulation_duration = go(rho, [1]*number_of_nodes, [n]*number_of_nodes, 30, True, 10000, 10000)
+        writeSimulation(finished, unstationary_data, node_state_dataframe, rho, [1]*number_of_nodes, [n]*number_of_nodes, 30, True, 10000, 10000, simulation_duration, PATH)
+
+    print('Finished Simulations: ' + str(iteration_ansamble) + ' out of ' + str(18))
     iteration_ansamble = iteration_ansamble + 1
-    print('Finished Simulations: ' + str(iteration_ansamble) + ' out of ' + str(17))
 
-
-rho = 0.8
-for number_of_nodes in range(2, 11, 1):
-    if(number_of_nodes != 5):
-        arrival_rate = rho
-        array_of_departure_rates = [1] * number_of_nodes
-        array_of_queue_lengths = [4] * number_of_nodes
-        finish_drop_window = 30
-        isdynamic = False
-        discrepancy = 0.05
-        overd2 = round(1 / discrepancy ** 2)
-        dynamic_window = number_of_nodes*(4 + 1)*overd2/4
-
-        number_of_samples = 40000
-        dynamic_after_stationary_number_of_samples = 10
-        finished, unstationary_data, node_state_dataframe, simulation_duration = go(arrival_rate, array_of_departure_rates,
-                                                                                    array_of_queue_lengths,
-                                                                                    finish_drop_window, isdynamic, discrepancy,
-                                                                                    dynamic_window,
-                                                                                    number_of_samples,
-                                                                                    dynamic_after_stationary_number_of_samples)
-        writeSimulation(finished, unstationary_data, node_state_dataframe, arrival_rate, array_of_departure_rates,
-                        array_of_queue_lengths, finish_drop_window, isdynamic, discrepancy, dynamic_window, number_of_samples,
-                        dynamic_after_stationary_number_of_samples, simulation_duration)
-        iteration_ansamble = iteration_ansamble + 1
-        print('Finished Simulations: ' + str(iteration_ansamble) + ' out of ' + str(17))
+with open(PATH + "/RUNS/grid" + str(GRID_NUMBER) + "_configuration.txt", "w+") as text_file:
+    text = 'GRID ' + str(GRID_NUMBER) + ' Configuration: ' + '\n'
+    text = text + 'rho from ' + str(round(grid_rho[0], 2)) + ' to ' + str(round(grid_rho[-1], 2)) + ' with step 0.1' + '\n'
+    text = text + 'queue number from ' + str(grid_n[0]) + ' to ' + str(grid_n[-1]) + ' with step 1' + '\n'
+    text = text + 'grid duration: ' + str(round(time.time() - grid_start_time))
+    text_file.write()
