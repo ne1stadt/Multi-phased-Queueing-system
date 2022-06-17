@@ -8,7 +8,7 @@ PATH = r'C:\Users\koni0321\PycharmProjects\Multi-phased-Queueing-system'        
 
 grid_rho, grid_n = get_parameters_by_grid_number(GRID_NUMBER)
 
-number_of_nodes = 8
+number_of_nodes = 12
 
 iteration_ansamble = 1
 grid_start_time = time.time()
