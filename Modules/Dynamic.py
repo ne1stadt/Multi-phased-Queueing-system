@@ -7,9 +7,12 @@ def isStationary(node_state_dataframe, probabilities, dynamic_window, lenmus, qu
         print('Need more data for Stationary Check...')
         return False, probabilities
     else:
-        if probabilities[-5:].std().max() < 0.04 and probabilities[-5:].std().mean() < 0.015:
+        std_max = probabilities[-5:].std().max()
+        std_mean = probabilities[-5:].std().mean()
+        if std_max < 0.02 and std_mean < 0.0125:
             return True, probabilities
         else:
+            print([std_mean, std_max])
             return False, probabilities
 
 
