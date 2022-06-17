@@ -18,8 +18,8 @@ for rho in grid_rho:
         finished, unstationary_data, node_state_dataframe, simulation_duration = go(rho, [1]*number_of_nodes, [n]*number_of_nodes, 30, True, 10000, 10000)
         writeSimulation(finished, unstationary_data, node_state_dataframe, rho, [1]*number_of_nodes, [n]*number_of_nodes, 30, True, 10000, 10000, simulation_duration, PATH)
 
-    print('Finished Simulations: ' + str(iteration_ansamble) + ' out of ' + str(18))
-    iteration_ansamble = iteration_ansamble + 1
+        print('Finished Simulations: ' + str(iteration_ansamble) + ' out of ' + str(18))
+        iteration_ansamble = iteration_ansamble + 1
 
 with open(PATH + "/RUNS/grid" + str(GRID_NUMBER) + "_configuration.txt", "w+") as text_file:
     text = 'GRID ' + str(GRID_NUMBER) + ' Configuration: ' + '\n'
